@@ -1,14 +1,20 @@
 #!/usr/bin/python
 
-
+import time
 from mininet.net import Mininet
 from mininet.node import Controller, OVSSwitch, RemoteController, OVSKernelSwitch
 from mininet.cli import CLI
 from mininet.log import setLogLevel
 from mininet.topo import Topo
+from threading import Thread
+import os
+import sys
 
 
-def myController():
+
+
+
+def myController(): 
 
     net = Mininet(controller=RemoteController, switch=OVSKernelSwitch)
 
@@ -84,13 +90,69 @@ def myController():
     s4.start([c1])
     s5.start([c1])
 
-    print "*** Starting  CLI"
     net.start()
     print "*** Testing the connection between hosts "
     net.staticArp()
-    net.pingAllFull()
+    #net.pingAllFull()
+
     
 
+    def cleanArqs():
+        os.system("rm /home/leandroall/logsminet/logReceiverMain.log &")
+        os.system("rm /home/leandroall/logsminet/logSenderMain.log &")
+        os.system("rm /home/leandroall/logsminet/logmininet.log &")
+        for i in range(len(ListHostS1)):
+            os.system(("rm /home/leandroall/logsminet/sendermininet" +str(i)+ ".log &"))
+
+    def startReceiver():
+        h69=net.get('h69')
+        h69.waiting = False
+        h69.cmd("> /home/leandroall/logsminet/logmininet.log")
+        h69.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
+
+    def startSender():
+        #time.sleep(6)
+        for i in range(len(ListHostS1)):
+          ListHostS1[i].waiting = False	
+          ListHostS1[i].cmd(("> /home/leandroall/logsminet/sendermininet"+str(i)+".log"))
+          ListHostS1[i].cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0.69 -C 1000 -c 40 -T UDP -t 3000000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet.log &"))
+        
+    def startMainReceiver():
+        h68=net.get('h68')
+        h68.waiting = False
+        h68.cmd("> /home/leandroall/logsminet/logReceiverMain.log &")
+        h68.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
+
+    def startMainSender():
+        h21=net.get('h21')
+        h21.waiting = False
+        h21.cmd(("> /home/leandroall/logsminet/logSenderMain.log &"))
+        h21.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend  -a 10.0.0.68 -C 1000 -c 512 -T UDP -t 3000000 -l /home/leandroall/logsminet/logSenderMain.log -x /home/leandroall/logsminet/logReceiverMain.log &"))   
+ 
+    #Perda boa: -a 10.0.0.69 -C 1000 -c 512 -T UDP -t 300000
+    
+    print "*** Clearing All Files "
+    
+    cleanArqs()
+
+    print "*** Start Regular Receiver to Listen"
+
+    startReceiver()  
+
+    print "*** Starting Regular Sends"
+    
+    startSender()
+
+    print "*** Start the Main Receiver to Listen"
+
+    startMainReceiver()
+    
+    print "*** Start the Main Sender"
+    
+    startMainSender()
+    
+    print "*** Waiting the process finish"
+    
     CLI(net)
 
 
