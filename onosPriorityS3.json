@@ -1,0 +1,32 @@
+{
+  "flows": [
+    {
+      "appId":"org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000003",      
+      "cleared":true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "OUTPUT",
+            "port":"NORMAL"
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.29/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+  ]
+}

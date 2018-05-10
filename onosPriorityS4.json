@@ -1,0 +1,556 @@
+{
+  "flows": [
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":1,
+            "port":1
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.21/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":2
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.22/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":3
+
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.23/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":4
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.24/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":5
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.25/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":6
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.26/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":7
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.27/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":8
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.28/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":9
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.29/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":10
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.30/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":11
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.31/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":12
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.32/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":13
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.33/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":14
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.34/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":15
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.35/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":16
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.36/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":17
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.37/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+    ,{
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":18
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.38/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    },
+    {
+      "appId": "org.onosproject.restsb",
+      "priority": 65535,
+      "timeout": 0,
+      "isPermanent": true,
+      "deviceId": "of:0000000000000004",
+      "cleared": true,
+      "treatment": {
+        "instructions": [
+          {
+            "type": "QUEUE",
+            "queueId":2,
+            "port":19
+          }
+        ]
+      },
+      "selector": {
+        "criteria": [
+          {
+            "type": "IPV4_SRC",
+            "ip": "10.0.0.39/32"
+          },
+          {
+            "type": "ETH_TYPE",
+            "ethType": "0x0800"
+          }
+        ]
+      }
+    }
+  ]
+}
