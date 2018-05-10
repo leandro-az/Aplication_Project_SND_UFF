@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import time
 from mininet.net import Mininet
@@ -13,6 +14,8 @@ import sys
 
 
 
+
+timeToSend=300000
 
 def myController(): 
 
@@ -89,10 +92,20 @@ def myController():
     s3.start([c1])
     s4.start([c1])
     s5.start([c1])
-
     net.start()
+
+    
     print "*** Testing the connection between hosts "
     net.staticArp()
+
+    s2.waiting=False
+    s2.cmd("ovs-vsctl set port eth20 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=1=@q1,2=@q2 -- --id=@q1 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q2 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
+
+    s4.waiting=False
+    s4.cmd("ovs-vsctl set port eth3 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=1=@q1,2=@q2 -- --id=@q1 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q2 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
+
+
+    
     #net.pingAllFull()
 
     
@@ -100,23 +113,25 @@ def myController():
     def cleanArqs():
         os.system("rm /home/leandroall/logsminet/logReceiverMain.log &")
         os.system("rm /home/leandroall/logsminet/logSenderMain.log &")
-        os.system("rm /home/leandroall/logsminet/logmininet.log &")
-        for i in range(len(ListHostS1)):
+        os.system("rm /home/leandroall/logsminet/logmininet.log")
+        for i in range(len(ListHostS2)):
             os.system(("rm /home/leandroall/logsminet/sendermininet" +str(i)+ ".log &"))
 
     def startReceiver():
-        h69=net.get('h69')
-        h69.waiting = False
-        h69.cmd("> /home/leandroall/logsminet/logmininet.log")
-        h69.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
+        for i in range(len(ListHostS3)):
+             hS3=net.get(ListHostS3[i].name)
+             hS3.waiting = False
+             hS3.cmd("> /home/leandroall/logsminet/logmininet.log")
+             hS3.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
 
     def startSender():
         #time.sleep(6)
-        for i in range(len(ListHostS1)):
-          ListHostS1[i].waiting = False	
-          ListHostS1[i].cmd(("> /home/leandroall/logsminet/sendermininet"+str(i)+".log"))
-          ListHostS1[i].cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0.69 -C 1000 -c 40 -T UDP -t 3000000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet.log &"))
-        
+        for i in range(len(ListHostS2)):
+          ListHostS2[i].waiting = False	
+          ListHostS2[i].cmd(("> /home/leandroall/logsminet/sendermininet"+str(i)+".log"))
+          #Enviando para S3
+          ListHostS2[i].cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0."+str(41+i)+" -T TCP -E 167 -c 1500 -t 3000000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet.log &"))
+          
     def startMainReceiver():
         h68=net.get('h68')
         h68.waiting = False
@@ -124,13 +139,25 @@ def myController():
         h68.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
 
     def startMainSender():
-        h21=net.get('h21')
-        h21.waiting = False
-        h21.cmd(("> /home/leandroall/logsminet/logSenderMain.log &"))
-        h21.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend  -a 10.0.0.68 -C 1000 -c 512 -T UDP -t 3000000 -l /home/leandroall/logsminet/logSenderMain.log -x /home/leandroall/logsminet/logReceiverMain.log &"))   
+        h2=net.get('h2')
+        h2.waiting = False
+        h2.cmd(("> /home/leandroall/logsminet/logSenderMain.log &"))
+        h2.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend  -a 10.0.0.68 -T UDP -E 15 -u 78 2718 -t 3000000 -l /home/leandroall/logsminet/logSenderMain.log -x /home/leandroall/logsminet/logReceiverMain.log &"))   
  
     #Perda boa: -a 10.0.0.69 -C 1000 -c 512 -T UDP -t 300000
+
+    print "*** Set conf to QOS "
+
+    os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS2.json  --user onos:rocks")
+    #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS3.json  --user onos:rocks")
+    os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS4.json  --user onos:rocks")
+   
     
+    #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/queueImpl.json  --user onos:rocks")
+    #Espera 5min
+    #wipe-out please  -- comando para lmpar o onos
+    time.sleep(300)
+
     print "*** Clearing All Files "
     
     cleanArqs()
