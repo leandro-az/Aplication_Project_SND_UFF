@@ -3,12 +3,14 @@
 
 import time
 from mininet.net import Mininet
-from mininet.node import Controller, OVSSwitch, RemoteController, OVSKernelSwitch
+from mininet.node import Controller, OVSSwitch, RemoteController, OVSKernelSwitch,OVSSwitch
 from mininet.cli import CLI
 from mininet.log import setLogLevel
 from mininet.topo import Topo
+from mininet.link import Link, TCLink
 from threading import Thread
 import os
+import subprocess
 import sys
 
 
@@ -19,7 +21,7 @@ timeToSend=300000
 
 def myController(): 
 
-    net = Mininet(controller=RemoteController, switch=OVSKernelSwitch)
+    net = Mininet(controller=RemoteController, switch=OVSSwitch)
 
     print "*** Creating the reference to controller"
 
@@ -92,20 +94,24 @@ def myController():
     s3.start([c1])
     s4.start([c1])
     s5.start([c1])
+
+    
+    #print "*** Testing the connection between hosts "
+    #net.staticArp()
+    def createQueue():
+        os.system("ovs-vsctl -- --all destroy QoS -- --all destroy Queue")
+        os.system("ovs-vsctl set port s2-eth20 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
+        os.system("ovs-ofctl add-flow s2 \"priority=65535,in_port=1,actions=enqueue:20:0\"")
+        for i in range(2,20):
+            os.system("ovs-ofctl add-flow s2 \"priority=65535, in_port="+str(i)+",actions=enqueue:20:1\"")
+
+        os.system("ovs-vsctl set port s4-eth3 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
+        os.system("ovs-ofctl add-flow s4 \"priority=65535,nw_src=10.0.0.21,actions=enqueue:3:0\"")
+        for i in range(22,40):
+           os.system("ovs-ofctl add-flow s4 \"priority=65535,nw_src=10.0.0."+str(i)+",actions=enqueue:3:1\"")
+
+     
     net.start()
-
-    
-    print "*** Testing the connection between hosts "
-    net.staticArp()
-
-    s2.waiting=False
-    s2.cmd("ovs-vsctl set port eth20 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=1=@q1,2=@q2 -- --id=@q1 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q2 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
-
-    s4.waiting=False
-    s4.cmd("ovs-vsctl set port eth3 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=1=@q1,2=@q2 -- --id=@q1 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q2 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
-
-
-    
     #net.pingAllFull()
 
     
@@ -148,15 +154,17 @@ def myController():
 
     print "*** Set conf to QOS "
 
-    os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS2.json  --user onos:rocks")
+    createQueue()
+
+    #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS2.json  --user onos:rocks")
     #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS3.json  --user onos:rocks")
-    os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS4.json  --user onos:rocks")
+   # os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS4.json  --user onos:rocks")
    
     
     #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/queueImpl.json  --user onos:rocks")
     #Espera 5min
     #wipe-out please  -- comando para lmpar o onos
-    time.sleep(300)
+    
 
     print "*** Clearing All Files "
     
