@@ -1,7 +1,6 @@
 {
   "flows": [
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -11,9 +10,13 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":1,
-            "port":1
+            "queueId":0
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
+
         ]
       },
       "selector": {
@@ -30,7 +33,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -40,8 +42,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":2
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -59,7 +64,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -69,9 +73,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
             "port":3
-
           }
         ]
       },
@@ -89,7 +95,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -99,8 +104,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":4
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -118,7 +126,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -128,8 +135,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":5
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -147,7 +157,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -157,8 +166,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":6
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -176,7 +188,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -186,8 +197,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":7
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -205,7 +219,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -215,8 +228,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":8
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -234,7 +250,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -244,8 +259,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":9
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -263,7 +281,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -273,8 +290,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":10
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -292,7 +312,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -302,8 +321,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":11
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -321,7 +343,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -331,8 +352,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":12
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -350,7 +374,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -360,8 +383,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":13
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -379,7 +405,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -389,8 +414,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":14
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -408,7 +436,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -418,8 +445,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":15
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -437,7 +467,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -447,8 +476,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":16
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -466,7 +498,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -476,8 +507,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":17
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -495,7 +529,6 @@
       }
     }
     ,{
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -505,8 +538,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":18
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
@@ -524,7 +560,6 @@
       }
     },
     {
-      "appId": "org.onosproject.restsb",
       "priority": 65535,
       "timeout": 0,
       "isPermanent": true,
@@ -534,8 +569,11 @@
         "instructions": [
           {
             "type": "QUEUE",
-            "queueId":2,
-            "port":19
+            "queueId":1
+          },
+          {
+            "type": "OUTPUT",
+            "port":3
           }
         ]
       },
