@@ -8,16 +8,17 @@ from mininet.cli import CLI
 from mininet.log import setLogLevel
 from mininet.topo import Topo
 from mininet.link import Link, TCLink
-from threading import Thread
 import os
-import subprocess
-import sys
+import json
 
 
 
 
-
-timeToSend=300000
+NHostS1=61
+NHostS2=121
+NHostS3=181
+NHostS5=241
+Pref=61
 
 def myController(): 
 
@@ -37,26 +38,20 @@ def myController():
     print "*** Creating hosts"
 
     ListHostS1=[]
-    for i in range (1,20):
+    for i in range (1,NHostS1):
         ListHostS1.append(net.addHost('h'+str(i),ip=('10.0.0.'+str(i))))
 
     ListHostS2 = []
-    for i in range(21, 40):
+    for i in range(NHostS1, NHostS2):
         ListHostS2.append(net.addHost('h' + str(i), ip=('10.0.0.' + str(i))))
 
     ListHostS3 = []
-    for i in range(41, 60):
+    for i in range(NHostS2, NHostS3):
         ListHostS3.append(net.addHost('h' + str(i), ip=('10.0.0.' + str(i))))
 
     ListHostS5 = []
-    for i in range(61, 70):
+    for i in range(NHostS3, NHostS5):
         ListHostS5.append(net.addHost('h' + str(i), ip=('10.0.0.' + str(i))))
-
-
-    #h1 = net.addHost('h1', ip='10.0.0.1')
-    #h2 = net.addHost('h2', ip='10.0.0.2')
-    #h3 = net.addHost('h3', ip='10.0.0.3')
-    #h4 = net.addHost('h4', ip='10.0.0.4')
 
     print "*** Creating links"
 
@@ -98,96 +93,289 @@ def myController():
     net.start()
     #print "*** Testing the connection between hosts "
     #net.staticArp()
+
+    #net.pingAllFull()
+
+    def createJsonRule():
+        os.system("> /home/leandroall/logsminet/jsonRule.json")
+        data = {}  
+        data['flows'] = [] 
+        for i in range(NHostS1, NHostS2): 
+            if ( i == Pref) :
+                data['flows'].append({
+                                      "priority": 65535,
+                                      "timeout": 1800,
+                                      "isPermanent": True,
+                                      "deviceId": "of:0000000000000002",
+                                      "cleared": True,
+                                      "treatment": {
+                                        "instructions": [
+                                          {
+                                            "type": "QUEUE",
+                                            "queueId":0
+                                          },
+                                          {
+                                            "type": "OUTPUT",
+                                            "port":61
+                                          }
+                                        ]
+                                      },
+                                      "selector": {
+                                        "criteria": [
+                                          {
+                                            "type": "IPV4_SRC",
+                                            "ip": "10.0.0."+str(i)+"/32"
+                                          },
+                                          {
+                                            "type": "ETH_TYPE",
+                                            "ethType": "0x0800"
+                                          }
+                                        ]
+                                      }
+                                    })
+            else:
+                 data['flows'].append({
+                                      "priority": 65535,
+                                      "timeout": 1800,
+                                      "isPermanent": True,
+                                      "deviceId": "of:0000000000000002",
+                                      "cleared": True,
+                                      "treatment": {
+                                        "instructions": [
+                                          {
+                                            "type": "QUEUE",
+                                            "queueId":1
+                                          },
+                                          {
+                                            "type": "OUTPUT",
+                                            "port":61
+                                          }
+                                        ]
+                                      },
+                                      "selector": {
+                                        "criteria": [
+                                          {
+                                            "type": "IPV4_SRC",
+                                            "ip": "10.0.0."+str(i)+"/32"
+                                          },
+                                          {
+                                            "type": "ETH_TYPE",
+                                            "ethType": "0x0800"
+                                          }
+                                        ]
+                                      }
+                                    })
+        for i in range(NHostS1, NHostS2): 
+            if ( i == Pref) :
+                data['flows'].append({
+                                      "priority": 65535,
+                                      "timeout": 1800,
+                                      "isPermanent": True,
+                                      "deviceId": "of:0000000000000004",
+                                      "cleared": True,
+                                      "treatment": {
+                                        "instructions": [
+                                          {
+                                            "type": "QUEUE",
+                                            "queueId":0
+                                          },
+                                          {
+                                            "type": "OUTPUT",
+                                            "port":1
+                                          }
+                                        ]
+                                      },
+                                      "selector": {
+                                        "criteria": [
+                                          {
+                                            "type": "IPV4_SRC",
+                                            "ip": "10.0.0."+str(i)+"/32"
+                                          },
+                                          {
+                                            "type": "ETH_TYPE",
+                                            "ethType": "0x0800"
+                                          }
+                                        ]
+                                      }
+                                    })
+            else:
+                 data['flows'].append({
+                                      "priority": 65535,
+                                      "timeout": 1800,
+                                      "isPermanent": True,
+                                      "deviceId": "of:0000000000000004",
+                                      "cleared": True,
+                                      "treatment": {
+                                        "instructions": [
+                                          {
+                                            "type": "QUEUE",
+                                            "queueId":1
+                                          },
+                                          {
+                                            "type": "OUTPUT",
+                                            "port":1
+                                          }
+                                        ]
+                                      },
+                                      "selector": {
+                                        "criteria": [
+                                          {
+                                            "type": "IPV4_SRC",
+                                            "ip": "10.0.0."+str(i)+"/32"
+                                          },
+                                          {
+                                            "type": "ETH_TYPE",
+                                            "ethType": "0x0800"
+                                          }
+                                        ]
+                                      }
+                                    }) 
+        data['flows'].append({
+                                      "priority": 45535,
+                                      "timeout": 1800,
+                                      "isPermanent": True,
+                                      "deviceId": "of:0000000000000004",
+                                      "cleared": True,
+                                      "treatment": {
+                                        "instructions": [
+                                          {
+                                            "type": "QUEUE",
+                                            "queueId":1
+                                          },
+                                          {
+                                            "type": "OUTPUT",
+                                            "port":3
+                                          }
+                                        ]
+                                      },
+                                      "selector": {
+                                        "criteria": [
+                                          {
+                                            "type": "IN_PORT",
+                                            "port": 4
+                                          },
+                                          {
+                                            "type": "ETH_TYPE",
+                                            "ethType": "0x0800"
+                                          }
+                                        ]
+                                      }
+                                    })                                                          
+
+
+        with open('/home/leandroall/logsminet/jsonRule.json', 'w') as outfile:  
+           json.dump(data, outfile)
+       
+
+
     def createQueue():
         os.system("ovs-vsctl -- --all destroy QoS -- --all destroy Queue")
-        os.system("ovs-vsctl set port s2-eth20 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
+        os.system("ovs-vsctl set port s2-eth61 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:priority=1  other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:priority=2 other-config:min-rate=100000000 other-config:max-rate=100000000")
         #os.system("ovs-ofctl add-flow s2 \"priority=65535,dl_type=0x0800,nw_src=10.0.0.21,actions=enqueue:20:0\"")
         #for i in range(22,40):
            # os.system("ovs-ofctl add-flow s2 \"priority=65535,dl_type=0x0800,nw_src=10.0.0."+str(i)+",actions=enqueue:20:1\"")
 
-        os.system("ovs-vsctl set port s4-eth3 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:min-rate=2000000 other-config:max-rate=2000000")
+        os.system("ovs-vsctl set port s4-eth1 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:priority=1  other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:priority=2  other-config:min-rate=100000000 other-config:max-rate=100000000")
+        os.system("ovs-vsctl set port s4-eth3 qos=@newqos -- --id=@newqos create qos type=linux-htb queues=0=@q0,1=@q1 -- --id=@q0 create queue other-config:priority=1  other-config:min-rate=1000000000 other-config:max-rate=100000000 -- --id=@q1 create queue other-config:priority=2  other-config:min-rate=100000000 other-config:max-rate=100000000")
         #os.system("ovs-ofctl add-flow s4 \"priority=65535,dl_type=0x0800,nw_src=10.0.0.21,actions=enqueue:3:0\"")
         #for i in range(22,40):
           # os.system("ovs-ofctl add-flow s4 \"priority=65535,dl_type=0x0800,nw_src=10.0.0."+str(i)+",actions=enqueue:3:1\"")
 
-        os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS2.json  --user onos:rocks")
-        #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS3.json  --user onos:rocks")
-        os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS4.json  --user onos:rocks")  
-
+        #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS2.json  --user onos:rocks")
         
+        #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/onosPriorityS4.json  --user onos:rocks")  
+
+        os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/logsminet/jsonRule.json  --user onos:rocks")
     
-    #net.pingAllFull()
+    
 
     
 
     def cleanArqs():
-        os.system("rm /home/leandroall/logsminet/logReceiverMain.log &")
-        os.system("rm /home/leandroall/logsminet/logSenderMain.log &")
-        os.system("rm /home/leandroall/logsminet/logmininet.log")
-        for i in range(len(ListHostS2)):
+        os.system(("rm /home/leandroall/logsminet/jsonRule.json"))
+        #Arq S1
+        for i in range (1,61):
             os.system(("rm /home/leandroall/logsminet/sendermininet" +str(i)+ ".log &"))
+        #Arq S2
+        for i in range(61, 121):
+            os.system(("rm /home/leandroall/logsminet/sendermininet" +str(i)+ ".log &"))
+        #Arq S3
+        for i in range(1, 61):
+            os.system(("rm /home/leandroall/logsminet/logmininet" +str(i)+ ".log &")) 
+        #Arq S5    
+        for i in range(61, 121):
+            os.system(("rm /home/leandroall/logsminet/logmininet" +str(i)+ ".log &"))         
 
-    def startReceiver():
-        for i in range(len(ListHostS3)):
-             hS3=net.get(ListHostS3[i].name)
+    def startReceivers():
+
+         #Arq S3
+        for i in range(1, 61):
+            os.system(("> /home/leandroall/logsminet/logmininet" +str(i)+ ".log &")) 
+         #S3 para ouvir   
+        for i in range(NHostS2, NHostS3):
+             hS3=net.get('h'+str(i))
              hS3.waiting = False
-             hS3.cmd("> /home/leandroall/logsminet/logmininet.log")
-             hS3.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
+             hS3.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" ) 
 
-    def startSender():
-        #time.sleep(6)
-        for i in range(len(ListHostS2)):
-          ListHostS2[i].waiting = False	
-          ListHostS2[i].cmd(("> /home/leandroall/logsminet/sendermininet"+str(i)+".log"))
-          #Enviando para S3
-          ListHostS2[i].cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0."+str(41+i)+" -T TCP -E 167 -c 1500 -t 3000000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet.log &"))
-          
-    def startMainReceiver():
-        h68=net.get('h68')
-        h68.waiting = False
-        h68.cmd("> /home/leandroall/logsminet/logReceiverMain.log &")
-        h68.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" )
+        #Arq S5    
+        for i in range(61, 121):
+            os.system(("> /home/leandroall/logsminet/logmininet" +str(i)+ ".log &")) 
 
-    def startMainSender():
-        h2=net.get('h2')
-        h2.waiting = False
-        h2.cmd(("> /home/leandroall/logsminet/logSenderMain.log &"))
-        h2.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend  -a 10.0.0.68 -T UDP -E 15 -u 78 2718 -t 3000000 -l /home/leandroall/logsminet/logSenderMain.log -x /home/leandroall/logsminet/logReceiverMain.log &"))   
- 
+        #S5 para ouvir
+        for i in range(NHostS3, NHostS5):
+             hS5=net.get('h'+str(i))
+             hS5.waiting = False
+             hS5.cmd("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGRecv &" ) 
+
+                     
+
+    def startSenders():
+        #Arq S1
+        for i in range (1,41):
+           os.system(("> /home/leandroall/logsminet/sendermininet" +str(i)+ ".log &"))
+           #S1 envia para S3
+           hS1=net.get('h'+str(i))
+           hS1.waiting = False
+           hS1.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0."+str((NHostS2-1)+i)+" -C 1000 -c 1500 -T TCP -t 1800000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet"+str(i)+".log &"))
+        
+        
+        #Arq S2
+        for i in range(61, 101):
+           os.system(("> /home/leandroall/logsminet/sendermininet" +str(i)+ ".log &"))
+           #S2 envia para S5
+           hS2=net.get('h'+str(i))
+           hS2.waiting = False
+           if (i == 61):
+               hS2.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0."+str((NHostS2-1)+i)+" -C 50 -c 20 -T UDP -t 1800000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet" +str(i)+ ".log &"))
+           else:
+               hS2.cmd(("/home/leandroall/D-ITG-2.8.1-r1023/bin/ITGSend -a 10.0.0."+str((NHostS2-1)+i)+" -C 1000 -c 1500 -T TCP -t 1800000 -l /home/leandroall/logsminet/sendermininet" +str(i)+ ".log -x /home/leandroall/logsminet/logmininet" +str(i)+ ".log &"))
+    #testar 
     #Perda boa: -a 10.0.0.69 -C 1000 -c 512 -T UDP -t 300000
 
-    print "*** Set conf to QOS "
-
-    createQueue()
-   
-   
-    
-    #os.system("curl -X POST -H \"content-type:application/json\" http://localhost:8181/onos/v1/flows -d @/home/leandroall/queueImpl.json  --user onos:rocks")
-    #Espera 5min
-    #wipe-out please  -- comando para lmpar o onos
-    
 
     print "*** Clearing All Files "
     
     cleanArqs()
+    
+    #print "*** Create jsonRule "
 
+    #createJsonRule()   
+
+    #print "*** Set conf to QOS " 
+
+    #createQueue()     
+   
+    #wipe-out please  -- comando para lmpar o onos
+
+    time.sleep(50)
+    
     print "*** Start Regular Receiver to Listen"
 
-    startReceiver()  
+    startReceivers()  
 
     print "*** Starting Regular Sends"
     
-    startSender()
-
-    print "*** Start the Main Receiver to Listen"
-
-    startMainReceiver()
-    
-    print "*** Start the Main Sender"
-    
-    startMainSender()
-    
-    print "*** Waiting the process finish"
+    startSenders()
     
     CLI(net)
 
